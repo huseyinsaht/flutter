@@ -1,4 +1,5 @@
 import 'package:first_flutter/models/student.dart';
+import 'package:first_flutter/screens/student_add.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,15 +13,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var message = "Ogrenci takip sistemi";
-  String seciliOgrenci = "";
+  var selectedStudent = Student.withId(0,"", "", 0, "");
 
   List<Student> students = [
-    //
-    Student("engin", "demirog", 25,
+    Student.withId(1, "engin", "demirog", 25,
         "https://media.istockphoto.com/id/1057623146/de/foto/blick-von-der-r%C3%BCckseite-eines-m%C3%A4dchens-in-einem-hut-liegt-auf-einem-h%C3%BCgel-und-befasst-sich-mit.jpg?s=2048x2048&w=is&k=20&c=jThsONVolCVC4MvdMlPdqBehx653RpQfLH9b8q-q-bI="), //
-    Student("as", "aba", 100,
+    Student.withId(2, "as", "aba", 100,
         "https://cdn.pixabay.com/photo/2020/09/27/03/38/woman-5605529_640.jpg"), //
-    Student("kerem", "ava", 50,
+    Student.withId(3, "kerem", "ava", 50,
         "https://cdn.pixabay.com/photo/2016/01/25/19/48/man-1161337_640.jpg") //
   ];
 
@@ -33,14 +33,6 @@ class _MyAppState extends State<MyApp> {
       ),
       body: buildBody(context),
     );
-  }
-
-  String sinavhesapla(int not) {
-    var sinavSonucu = "";
-    if (not > 70) {
-      return sinavSonucu = "passed";
-    }
-    return sinavSonucu = "failed";
   }
 
   void mesajGoster(BuildContext context, String sinavSonucu) {
@@ -72,17 +64,15 @@ class _MyAppState extends State<MyApp> {
                     trailing: buildStatusIcon(students[index]),
                     onTap: () {
                       setState(() {
-                        seciliOgrenci = students[index].firstName +
-                            " " +
-                            students[index].lastName;
+                        selectedStudent = students[index];
                       });
-                      print(students[index].firstName +
+                      print(selectedStudent.firstName +
                           " " +
-                          students[index].lastName);
+                          selectedStudent.lastName);
                     },
                   );
                 })),
-        Text("Choosen : " + seciliOgrenci),
+        Text("Choosen student: " + selectedStudent.firstName),
         Row(
           children: [
             Flexible(
@@ -102,10 +92,10 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   onPressed: () {
-                    var mesaj = sinavhesapla(85);
-                    mesajGoster(context, mesaj);
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentAdd()));
                   },
-                )),
+                )
+            ),
             Flexible(
                 fit: FlexFit.tight,
                 flex: 1,
@@ -123,10 +113,10 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   onPressed: () {
-                    var mesaj = sinavhesapla(85);
-                    mesajGoster(context, mesaj);
+                    mesajGoster(context, "Updated");
                   },
-                )),
+                )
+            ),
             Flexible(
                 fit: FlexFit.tight,
                 flex: 1,
@@ -144,10 +134,13 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   onPressed: () {
-                    var mesaj = sinavhesapla(85);
-                    mesajGoster(context, mesaj);
+                    setState(() {
+                      students.remove(selectedStudent);
+                      mesajGoster(context, "Deleted");
+                    });
                   },
-                ))
+                )
+            )
           ],
         )
       ],
@@ -155,10 +148,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget buildStatusIcon(Student student) {
-    student.setStatus(sinavhesapla(student.grade));
+
     if (student.grade > 50) {
+      student.setStatus("Passed");
       return Icon(Icons.done);
     }
+    student.setStatus("Failed");
     return Icon(Icons.clear);
   }
 }
