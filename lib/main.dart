@@ -89,53 +89,65 @@ class _MyAppState extends State<MyApp> {
                 fit: FlexFit.tight,
                 flex: 1,
                 child: ElevatedButton(
-                    onPressed: () {
-                      var mesaj = sinavhesapla(85);
-                      mesajGoster(context, mesaj);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.add),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text("Add"),
-                      ],
-                    ))),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.add), //
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text("Add"), //
+                    ],
+                  ),
+                  onPressed: () {
+                    var mesaj = sinavhesapla(85);
+                    mesajGoster(context, mesaj);
+                  },
+                )),
             Flexible(
                 fit: FlexFit.tight,
                 flex: 1,
                 child: ElevatedButton(
-                    onPressed: () {
-                      var mesaj = sinavhesapla(85);
-                      mesajGoster(context, mesaj);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.update),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text("Update"),
-                      ],
-                    ))),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.update), //
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text("Update"), //
+                    ],
+                  ),
+                  onPressed: () {
+                    var mesaj = sinavhesapla(85);
+                    mesajGoster(context, mesaj);
+                  },
+                )),
             Flexible(
                 fit: FlexFit.tight,
                 flex: 1,
                 child: ElevatedButton(
-                    onPressed: () {
-                      var mesaj = sinavhesapla(85);
-                      mesajGoster(context, mesaj);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.delete),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text("Delete"),
-                      ],
-                    )))
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amberAccent,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete), //
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text("Delete"), //
+                    ],
+                  ),
+                  onPressed: () {
+                    var mesaj = sinavhesapla(85);
+                    mesajGoster(context, mesaj);
+                  },
+                ))
           ],
         )
       ],
