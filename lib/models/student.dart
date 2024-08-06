@@ -6,26 +6,14 @@ class Student {
   String image = "";
   String status = "";
 
-  Student.withId(int id, String firstName, String lastName, int grade, String image) {
-    this.id =id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.grade = grade;
-    this.image = image;
-  }
+  Student.withId(this.id, this.firstName, this.lastName, this.grade, this.image);
 
-  Student(String firstName, String lastName, int grade, String image) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.grade = grade;
-    this.image = image;
-  }
-  Student.withoutInfo() {
+  Student(this.firstName, this.lastName, this.grade, this.image);
 
-  }
+  Student.withoutInfo();
 
   String getStatus() {
-    return this.status;
+    return status;
   }
 
   void setStatus(String status) {

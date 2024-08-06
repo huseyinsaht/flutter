@@ -1,19 +1,22 @@
 import 'package:first_flutter/models/student.dart';
 import 'package:first_flutter/screens/student_add.dart';
+import 'package:first_flutter/screens/student_edit.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(home: MyApp()));
+  runApp(const MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   var message = "Ogrenci takip sistemi";
-  var selectedStudent = Student.withId(0,"", "", 0, "");
+   Student selectedStudent= Student.withoutInfo();
 
   List<Student> students = [
     Student.withId(1, "engin", "demirog", 25,
@@ -37,7 +40,7 @@ class _MyAppState extends State<MyApp> {
 
   void mesajGoster(BuildContext context, String sinavSonucu) {
     var alert = AlertDialog(
-      title: Text("Note"),
+      title: const Text("Note"),
       content: Text(sinavSonucu),
     );
     showDialog(context: context, builder: (BuildContext context) => alert);
@@ -51,28 +54,20 @@ class _MyAppState extends State<MyApp> {
                 itemCount: students.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    leading: CircleAvatar(
-                        backgroundImage: NetworkImage(students[index].image)),
-                    title: Text(students[index].firstName +
-                        " " +
-                        students[index].lastName),
-                    subtitle: Text("Note : " +
-                        students[index].grade.toString() +
-                        " [" +
-                        students[index].getStatus() +
-                        "] "),
+                    leading: checkCircleAvatar(students[index]),
+                    title: Text(
+                        "${students[index].firstName} ${students[index].lastName}"),
+                    subtitle: Text(
+                        "Note : ${students[index].grade} [${students[index].getStatus()}] "),
                     trailing: buildStatusIcon(students[index]),
                     onTap: () {
                       setState(() {
                         selectedStudent = students[index];
                       });
-                      print(selectedStudent.firstName +
-                          " " +
-                          selectedStudent.lastName);
                     },
                   );
                 })),
-        Text("Choosen student: " + selectedStudent.firstName),
+        Text("Choosen student: ${selectedStudent.firstName}"),
         Row(
           children: [
             Flexible(
@@ -82,7 +77,7 @@ class _MyAppState extends State<MyApp> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.add), //
                       SizedBox(
@@ -92,10 +87,10 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentAdd()));
+                    Navigator.push(context,MaterialPageRoute(
+                        builder: (context) => StudentAdd(students)));
                   },
-                )
-            ),
+                )),
             Flexible(
                 fit: FlexFit.tight,
                 flex: 1,
@@ -103,7 +98,7 @@ class _MyAppState extends State<MyApp> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.update), //
                       SizedBox(
@@ -113,10 +108,10 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   onPressed: () {
-                    mesajGoster(context, "Updated");
+                    Navigator.push(context,MaterialPageRoute(
+                        builder: (context) => StudentEdit(selectedStudent)));
                   },
-                )
-            ),
+                )),
             Flexible(
                 fit: FlexFit.tight,
                 flex: 1,
@@ -124,7 +119,7 @@ class _MyAppState extends State<MyApp> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.amberAccent,
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.delete), //
                       SizedBox(
@@ -139,8 +134,7 @@ class _MyAppState extends State<MyApp> {
                       mesajGoster(context, "Deleted");
                     });
                   },
-                )
-            )
+                ))
           ],
         )
       ],
@@ -148,12 +142,22 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget buildStatusIcon(Student student) {
-
     if (student.grade > 50) {
       student.setStatus("Passed");
-      return Icon(Icons.done);
+      return const Icon(Icons.done);
     }
     student.setStatus("Failed");
-    return Icon(Icons.clear);
+    return const Icon(Icons.clear);
+  }
+
+  checkCircleAvatar(Student student) {
+    if (student.image.isNotEmpty) {
+      return CircleAvatar(backgroundImage: NetworkImage(student.image));
+    }
+    var letter = student.firstName[0];
+    return CircleAvatar(
+      backgroundColor: Colors.blueAccent.shade100,
+      child: Text(letter),
+    );
   }
 }

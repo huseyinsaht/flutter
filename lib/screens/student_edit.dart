@@ -3,24 +3,23 @@ import 'package:flutter/material.dart';
 import '../models/student.dart';
 import '../validation/student_validator.dart';
 
-class StudentAdd extends StatefulWidget {
-  List<Student> students = List.empty();
-  StudentAdd(List<Student> students){
-    this.students =students;
+class StudentEdit extends StatefulWidget {
+  Student student = Student.withoutInfo();
+  StudentEdit(Student student){
+    this.student =student;
   }
   @override
   State<StatefulWidget> createState() {
-    return _StudentAddState(students);
+    return _StudentAddState(student);
   }
 }
 
 class _StudentAddState extends State with StudentValidationFirstName {
-  List<Student> students = List.empty();
-  var student = Student.withoutInfo();
+  Student student = Student.withoutInfo();
   var _formKey = GlobalKey<FormState>();
 
-  _StudentAddState(List<Student> students){
-    this.students = students;
+  _StudentAddState(Student student){
+    this.student = student;
   }
   @override
   Widget build(BuildContext context) {
@@ -48,7 +47,7 @@ class _StudentAddState extends State with StudentValidationFirstName {
   Widget buildFirstNameField() {
     return TextFormField(
       decoration:
-          const InputDecoration(labelText: "First Name", hintText: "Engin"),
+      const InputDecoration(labelText: "First Name", hintText: "Engin"),
       validator: (value) => validateFirstName(value!),
       onSaved: (value) {
         student.firstName = value.toString();
@@ -59,7 +58,7 @@ class _StudentAddState extends State with StudentValidationFirstName {
   Widget buildLastNameField() {
     return TextFormField(
       decoration:
-          const InputDecoration(labelText: "Last Name", hintText: "demirog"),
+      const InputDecoration(labelText: "Last Name", hintText: "demirog"),
       validator: (value) => validateLastName(value!),
       onSaved: (value) {
         student.lastName = value.toString();
@@ -83,9 +82,6 @@ class _StudentAddState extends State with StudentValidationFirstName {
         var state = _formKey.currentState;
         if (state!.validate()) {
           state.save();
-          setState(() {
-            students.add(student);
-          });
           Navigator.pop(context);
         }
       },
