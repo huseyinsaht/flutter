@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var message = "Ogrenci takip sistemi";
-   Student selectedStudent= Student.withoutInfo();
+  Student selectedStudent = Student.withoutInfo();
 
   List<Student> students = [
     Student.withId(1, "engin", "demirog", 25,
@@ -55,10 +55,14 @@ class _MyAppState extends State<MyApp> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     leading: checkCircleAvatar(students[index]),
-                    title: Text(
-                        "${students[index].firstName} ${students[index].lastName}"),
-                    subtitle: Text(
-                        "Note : ${students[index].grade} [${students[index].getStatus()}] "),
+                    title: Text(students[index].firstName +
+                        " " +
+                        students[index].lastName),
+                    subtitle: Text("Note : " +
+                        students[index].grade.toString() +
+                        " [" +
+                        students[index].getStatus() +
+                        "] "),
                     trailing: buildStatusIcon(students[index]),
                     onTap: () {
                       setState(() {
@@ -86,9 +90,16 @@ class _MyAppState extends State<MyApp> {
                       Text("Add"), //
                     ],
                   ),
-                  onPressed: () {
-                    Navigator.push(context,MaterialPageRoute(
-                        builder: (context) => StudentAdd(students)));
+                  onPressed: () async {
+                    final newStudent = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StudentAdd(students)));
+                    setState(() {
+                      if (newStudent != null) {
+                        students.add(newStudent);
+                      }
+                    });
                   },
                 )),
             Flexible(
@@ -108,8 +119,11 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   onPressed: () {
-                    Navigator.push(context,MaterialPageRoute(
-                        builder: (context) => StudentEdit(selectedStudent)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                StudentEdit(selectedStudent)));
                   },
                 )),
             Flexible(
@@ -143,10 +157,8 @@ class _MyAppState extends State<MyApp> {
 
   Widget buildStatusIcon(Student student) {
     if (student.grade > 50) {
-      student.setStatus("Passed");
       return const Icon(Icons.done);
     }
-    student.setStatus("Failed");
     return const Icon(Icons.clear);
   }
 

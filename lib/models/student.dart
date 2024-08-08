@@ -4,19 +4,29 @@ class Student {
   String lastName = "";
   int grade = 0;
   String image = "";
-  String status = "";
+  String _status = "";
 
-  Student.withId(this.id, this.firstName, this.lastName, this.grade, this.image);
+  Student.withId(
+      this.id, this.firstName, this.lastName, this.grade, this.image);
 
-  Student(this.firstName, this.lastName, this.grade, this.image);
+  Student(String firstName, String lastName, int grade, String image) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.grade = grade;
+    this.image = image;
+  }
 
   Student.withoutInfo();
 
   String getStatus() {
-    return status;
+    if (grade > 50) {
+     return "Passed";
+    }
+    return "Failed";
   }
 
   void setStatus(String status) {
-    this.status = status;
+    _status = status;
   }
+
 }

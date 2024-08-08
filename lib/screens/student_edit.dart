@@ -29,7 +29,6 @@ class _StudentAddState extends State with StudentValidationFirstName {
         ),
         body: Container(
           margin: EdgeInsets.all(20.0),
-          padding: EdgeInsets.all(15.0),
           child: Form(
             key: _formKey,
             child: Column(

@@ -4,10 +4,10 @@ import '../models/student.dart';
 import '../validation/student_validator.dart';
 
 class StudentAdd extends StatefulWidget {
-  List<Student> students = List.empty();
-  StudentAdd(List<Student> students){
-    this.students =students;
-  }
+  final List<Student> students;
+
+  const StudentAdd(this.students, {Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _StudentAddState(students);
@@ -19,7 +19,7 @@ class _StudentAddState extends State with StudentValidationFirstName {
   var student = Student.withoutInfo();
   var _formKey = GlobalKey<FormState>();
 
-  _StudentAddState(List<Student> students){
+  _StudentAddState(List<Student> students) {
     this.students = students;
   }
   @override
@@ -30,7 +30,6 @@ class _StudentAddState extends State with StudentValidationFirstName {
         ),
         body: Container(
           margin: EdgeInsets.all(20.0),
-          padding: EdgeInsets.all(15.0),
           child: Form(
             key: _formKey,
             child: Column(
